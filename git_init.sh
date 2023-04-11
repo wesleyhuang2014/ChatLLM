@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-git init
+#git init
 # shellcheck disable=SC2035
 git add *
 git commit -m "init"
