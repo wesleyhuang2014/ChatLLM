@@ -2,17 +2,14 @@
 
 
 
-<h1 align = "center">🔥LLM4GPT🔥</h1>
+<h1 align = "center">🔥LLM4GPT 为大模型而生🔥</h1>
 
 ---
-> 为大模型而生！
 
 # Install
 
 ```python
-pip
-install - U
-llm4gpt
+pip install - U llm4gpt
 ```
 
 # [Docs](https://jie-yuan.github.io/llm4gpt/)
