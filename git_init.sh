@@ -7,5 +7,5 @@ git commit -m "init"
 
 git remote add origin git@github.com:yuanjie-ai/llm4gpt.git
 git branch -M master
-git push --force-with-lease -u origin master
+git push --force-with-lease  origin master
 # git remote remove origin
