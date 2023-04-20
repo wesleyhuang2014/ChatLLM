@@ -45,7 +45,7 @@ qa = QA(glm, faiss_ann=faissann.faiss_ann)
 qa.get_knowledge_based_answer('周杰伦在干吗')
 qa.get_knowledge_based_answer('姚明住哪里')
 ```
-
+![img.png](docs/img.png)
 ---
 
 # TODO
