@@ -43,7 +43,7 @@ setup(
     include_package_data=True,
     keywords='llm4gpt',
     name='llm4gpt',
-    packages=find_packages(include=['llm4gpt', 'llm4gpt.*']),
+    packages=find_packages(include=['llm', 'llm.*']),
 
     test_suite='tests',
     url='https://github.com/yuanjie-ai/llm4gpt',

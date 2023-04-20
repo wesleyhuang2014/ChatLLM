@@ -9,3 +9,28 @@
 # @Description  :
 
 
+from meutils.pipe import *
+
+from llm.utils import llm_load
+from llm.chatllm import ChatLLM
+from llm.kb.FaissANN import FaissANN
+from llm.qa import QA
+
+model, tokenizer = llm_load("/Users/betterme/PycharmProjects/AI/CHAT_MODEL/chatglm")
+glm = ChatLLM()
+glm.chat_func = partial(model.chat, tokenizer=tokenizer)
+# glm.chat_func = partial(model.stream_chat, tokenizer=tokenizer)
+
+texts = []
+metadatas = []
+for p in Path('/Users/betterme/PycharmProjects/AI/LLM4GPT/examples/Chinese-LangChain/docs').glob('*.txt') | xlist:
+    texts.append(p.read_text())
+    metadatas.append({'source': p})
+
+faissann = FaissANN()
+faissann.add_texts(texts, metadatas)
+
+qa = QA(glm, faiss_ann=faissann.faiss_ann)
+
+qa.get_knowledge_based_answer('周杰伦在干吗')
+qa.get_knowledge_based_answer('姚明住哪里')
