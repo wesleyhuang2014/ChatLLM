@@ -12,7 +12,7 @@
 pip install -U llm4gpt
 ```
 
-# [Docs](https://yuanjie-ai.github.io/llm4gpt/)
+# [Docs](https://yuanjie-ai.github.io/LLM4GPT/)
 
 # Usages
 
