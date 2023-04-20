@@ -9,9 +9,7 @@
 # Install
 
 ```python
-pip
-install - U
-llm4gpt
+pip install -U llm4gpt
 ```
 
 # [Docs](https://jie-yuan.github.io/llm4gpt/)
@@ -52,13 +50,13 @@ qa.get_knowledge_based_answer('姚明住哪里')
 
 # TODO
 
--[ ] 增加UI
+- [ ] 增加UI
 
--[x] 增加本地知识库组件
+- [x] 增加本地知识库组件
 
--[ ] 增加互联网搜索组件
+- [ ] 增加互联网搜索组件
 
--[ ] 增加知识图谱组件
+- [ ] 增加知识图谱组件
 
 -[ ] 增加微调模块
 
