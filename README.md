@@ -9,15 +9,38 @@
 # Install
 
 ```python
-pip install - U llm4gpt
+pip install -U llm4gpt
 ```
 
 # [Docs](https://jie-yuan.github.io/llm4gpt/)
 
 # Usages
 
-```
-import llm4gpt
+```python
+from meutils.pipe import *
+
+from llm.utils import llm_load
+from llm.chatllm import ChatLLM
+from llm.kb.FaissANN import FaissANN
+from llm.qa import QA
+
+model, tokenizer = llm_load(model_name_or_path="THUDM/chatglm-6b", device='cpu')
+glm = ChatLLM()
+glm.chat_func = partial(model.chat, tokenizer=tokenizer)
+
+texts = []
+metadatas = []
+for p in Path('data').glob('*.txt'):
+    texts.append(p.read_text())
+    metadatas.append({'source': p})
+
+faissann = FaissANN()
+faissann.add_texts(texts, metadatas)
+
+qa = QA(glm, faiss_ann=faissann.faiss_ann)
+
+qa.get_knowledge_based_answer('周杰伦在干吗')
+qa.get_knowledge_based_answer('姚明住哪里')
 ```
 
 ---
