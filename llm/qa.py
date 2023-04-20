@@ -70,3 +70,4 @@ class QA(object):
         self.chatllm.max_turns = max_turns
 
         return self.chatllm._call(query)
+

@@ -32,6 +32,8 @@ class ChatLLM(LLM):
     def _llm_type(self) -> str:
         return "ChatLLM"
 
+    # todo: https://github.com/hwchase17/langchain/issues/2415 增加流失
+
     def _call(self, prompt: str, stop: Optional[List[str]] = None) -> str:
         cuda_empty_cache()  # todo: 减少调用次数
 

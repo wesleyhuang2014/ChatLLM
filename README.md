@@ -18,9 +18,9 @@ pip install -U llm4gpt
 
 ```python
 from llm.qa import QA
-from llm.utils import llm_load
+from llm.kb import FaissANN
 from llm.chatllm import ChatLLM
-from llm.kb.FaissANN import FaissANN
+from llm.utils import llm_load
 
 from meutils.pipe import *
 
@@ -45,7 +45,7 @@ qa = QA(glm, faiss_ann=faissann.faiss_ann)
 qa.get_knowledge_based_answer('周杰伦在干吗')
 qa.get_knowledge_based_answer('姚明住哪里')
 ```
-![img.png](docs/img.png)
+
 ---
 
 # TODO

@@ -8,4 +8,4 @@
 # @Software     : PyCharm
 # @Description  :
 
-from meutils.pipe import *
+from llm.kb.FaissANN import FaissANN
