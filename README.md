@@ -28,15 +28,18 @@ model, tokenizer = llm_load(model_name_or_path="THUDM/chatglm-6b", device='cpu')
 glm = ChatLLM()
 glm.chat_func = partial(model.chat, tokenizer=tokenizer)
 
+# 解析知识库
 texts = []
 metadatas = []
 for p in Path('data').glob('*.txt'):
     texts.append(p.read_text())
     metadatas.append({'source': p})
 
+# 向量化
 faissann = FaissANN()
 faissann.add_texts(texts, metadatas)
 
+# 构建pipeline
 qa = QA(glm, faiss_ann=faissann.faiss_ann)
 
 qa.get_knowledge_based_answer('周杰伦在干吗')
