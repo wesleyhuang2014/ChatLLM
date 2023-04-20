@@ -9,7 +9,9 @@
 # Install
 
 ```python
-pip install -U llm4gpt
+pip
+install - U
+llm4gpt
 ```
 
 # [Docs](https://jie-yuan.github.io/llm4gpt/)
@@ -17,16 +19,12 @@ pip install -U llm4gpt
 # Usages
 
 ```python
-from meutils.pipe import *
-
+from llm.qa import QA
 from llm.utils import llm_load
 from llm.chatllm import ChatLLM
 from llm.kb.FaissANN import FaissANN
-from llm.qa import QA
 
-model, tokenizer = llm_load(model_name_or_path="THUDM/chatglm-6b", device='cpu')
-glm = ChatLLM()
-glm.chat_func = partial(model.chat, tokenizer=tokenizer)
+from meutils.pipe import *
 
 # 解析知识库
 texts = []
@@ -40,6 +38,10 @@ faissann = FaissANN(model_name_or_path="shibing624/text2vec-base-chinese")
 faissann.add_texts(texts, metadatas)
 
 # 构建pipeline
+model, tokenizer = llm_load(model_name_or_path="THUDM/chatglm-6b", device='cpu')
+glm = ChatLLM()
+glm.chat_func = partial(model.chat, tokenizer=tokenizer)
+
 qa = QA(glm, faiss_ann=faissann.faiss_ann)
 
 qa.get_knowledge_based_answer('周杰伦在干吗')
@@ -50,15 +52,17 @@ qa.get_knowledge_based_answer('姚明住哪里')
 
 # TODO
 
+-[ ] 增加UI
+
+-[x] 增加本地知识库组件
+
 -[ ] 增加互联网搜索组件
-
--[ ] 增加搜索组件
-
--[ ] 增加本地知识库组件
 
 -[ ] 增加知识图谱组件
 
 -[ ] 增加微调模块
+
+-[ ] 增加流式输出
 
 
 
