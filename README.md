@@ -35,8 +35,8 @@ for p in Path('data').glob('*.txt'):
     texts.append(p.read_text())
     metadatas.append({'source': p})
 
-# 向量化
-faissann = FaissANN()
+# 文档向量化
+faissann = FaissANN(model_name_or_path="shibing624/text2vec-base-chinese")
 faissann.add_texts(texts, metadatas)
 
 # 构建pipeline
