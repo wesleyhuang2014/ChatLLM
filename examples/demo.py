@@ -23,7 +23,7 @@ glm.chat_func = partial(model.chat, tokenizer=tokenizer)
 
 texts = []
 metadatas = []
-for p in Path('/Users/betterme/PycharmProjects/AI/LLM4GPT/examples/Chinese-LangChain/docs').glob('*.txt') | xlist:
+for p in Path('//examples/Chinese-LangChain/docs').glob('*.txt') | xlist:
     texts.append(p.read_text())
     metadatas.append({'source': p})
 

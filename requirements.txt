@@ -1,3 +1,4 @@
 meutils
-
-langchain
+transformers
+sentence_transformers
+# langchain

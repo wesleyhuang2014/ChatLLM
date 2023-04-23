@@ -13,7 +13,6 @@ from langchain.llms.utils import enforce_stop_tokens
 
 # ME
 from meutils.pipe import *
-from llm.utils import cuda_empty_cache
 
 
 class ChatLLM(LLM):
@@ -35,7 +34,6 @@ class ChatLLM(LLM):
     # todo: https://github.com/hwchase17/langchain/issues/2415 增加流失
 
     def _call(self, prompt: str, stop: Optional[List[str]] = None) -> str:
-        cuda_empty_cache()  # todo: 减少调用次数
 
         result = self.chat_func(query=prompt, history=self.history[-self.max_turns:])
         response = history = None
@@ -47,7 +45,8 @@ class ChatLLM(LLM):
 
         if stop:
             response = enforce_stop_tokens(response, stop)
-        self.history = history  # 历史所有
+        self.history = history  # 历史所有         self.history += [[None, response]]
+
         return response
 
     def set_chat_kwargs(self, **kwargs):

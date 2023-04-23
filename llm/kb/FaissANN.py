@@ -23,7 +23,7 @@ class FaissANN(object):
         self.folder_path = folder_path
         self.faiss_ann = self.load_local(folder_path, index_name)  # 加载已存在的索引
 
-    def add_texts(self, texts, metadatas: Optional[List[dict]] = None):
+    def add_texts(self, texts, metadatas: Optional[List[dict]] = None):  # todo: 增加进度条
         self.faiss_ann = FAISS.from_texts(texts, self.embeddings, metadatas)  # metadatas = [{'source': 'xx'}]
 
     def update(self, target: FAISS, index_name=None):

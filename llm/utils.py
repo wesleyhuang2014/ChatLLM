@@ -13,13 +13,6 @@ from transformers import AutoTokenizer, AutoModel, AutoConfig
 from meutils.pipe import *
 
 
-def cuda_empty_cache(device=None):  # todo: 减少清空次数
-    if torch.cuda.is_available():
-        with torch.cuda.device(device):
-            torch.cuda.empty_cache()
-            torch.cuda.ipc_collect()
-
-
 def auto_configure_device_map(num_gpus: int) -> Dict[str, int]:
     # transformer.word_embeddings 占用1层
     # transformer.final_layernorm 和 lm_head 占用1层
@@ -75,6 +68,4 @@ def llm_load(model_name_or_path="THUDM/chatglm-6b", device='cpu', device_map: Op
 
 
 if __name__ == '__main__':
-    # cuda_empty_cache()
-
     a = llm_load("/Users/betterme/PycharmProjects/AI/CHAT_MODEL/chatglm")
