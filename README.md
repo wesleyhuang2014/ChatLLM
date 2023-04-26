@@ -20,7 +20,7 @@ pip install -U chatllm
 from chatllm.applications import ChatBase
 
 qa = ChatBase()
-qa.load_llm4chat(model_name_or_path="MODEL")
+qa.load_llm4chat(model_name_or_path="THUDM/chatglm-6b")
 
 for i, _ in qa(query='周杰伦是谁', knowledge_base='周杰伦是傻子'):
     pass
@@ -36,6 +36,7 @@ pass
 ```
 
 </details>
+
 ---
 
 # TODO
