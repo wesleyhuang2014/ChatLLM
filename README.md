@@ -49,7 +49,7 @@ for i, _ in qa(query='东北证券主营业务'):
 
 - [ ] 增加UI
 
-- [ ] 增加ChatPDF
+- [x] 增加ChatPDF
 
 - [x] 增加本地知识库组件
 
