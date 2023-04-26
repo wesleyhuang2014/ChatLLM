@@ -24,7 +24,7 @@ class ChatWhoosh(ChatBase, EasySearch):
     def __init__(self, indexdir='whoosh_index', indexname='MAIN', **kwargs):
         ChatBase.__init__(self, **kwargs)
         EasySearch.__init__(self, indexdir, indexname)
-        self._df = pd.DataFrame()
+        self._df = pd.DataFrame({'id': [], 'text': [], 'score': []})
 
     def qa(self, query, topk=3, threshold=0.66, **kwargs):
         df = self.find(query, topk, threshold)
@@ -36,9 +36,7 @@ class ChatWhoosh(ChatBase, EasySearch):
 
     def find(self, query, topk=3, threshold=0.66, **kwargs):
         df = super().find(defaultfield='text', querystring=query, limit=topk, **kwargs)
-        if len(df) == 0:
-            logger.warning('召回内容为空!!!')
-        else:
+        if len(df):
             self._df = df.query(f'score > {threshold}')
         return self._df
 

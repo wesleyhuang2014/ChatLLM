@@ -34,7 +34,7 @@ class ChatANN(ChatBase):
         self.index = None
 
         # 召回结果df
-        self._df = pd.DataFrame()
+        self._df = pd.DataFrame({'id': [], 'text': [], 'score': []})
 
     def qa(self, query, topk=3, threshold=0.66, **kwargs):
         df = self.find(query, topk, threshold)

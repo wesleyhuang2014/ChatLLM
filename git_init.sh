@@ -3,7 +3,7 @@
 #git init
 # shellcheck disable=SC2035
 git add *
-git commit -m "init"
+git commit -m "[feat] add ChatWhoosh"
 
 #git remote add origin git@github.com:yuanjie-ai/llm4gpt.git
 #git branch -M master
