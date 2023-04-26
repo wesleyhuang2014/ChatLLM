@@ -10,7 +10,6 @@
 
 import streamlit as st
 from meutils.pipe import *
-from meutils.office_automation.pdf import extract_text
 from appzoo.streamlit_app.utils import display_pdf, reply4input
 
 from chatllm.applications.chatpdf import ChatPDF

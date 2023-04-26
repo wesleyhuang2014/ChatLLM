@@ -83,7 +83,8 @@ for i, _ in qa(query='东北证券主营业务'):
 <details markdown="1">
   <summary>Click to TODO</summary>
 
-- [ ] 增加UI
+- [x] 增加一键启动 webui
+  - `chatllm-run webui --name chatpdf`
 
 - [x] 增加ChatPDF
 
