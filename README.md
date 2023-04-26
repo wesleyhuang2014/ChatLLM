@@ -2,7 +2,7 @@
 
 <h1 align = "center">🔥ChatLLM 基于知识库🔥</h1>
 
-![向量召回结果](data/imgs/LLM.png)
+![架构图](data/imgs/LLM.drawio.png)
 
 # Install
 
