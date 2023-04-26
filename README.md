@@ -45,7 +45,7 @@ for i, _ in qa(query='东北证券主营业务'):
 ---
 
 <details markdown="1">
-  <summary>Click to TODO</summary
+  <summary>Click to TODO</summary>
 
 - [ ] 增加UI
 

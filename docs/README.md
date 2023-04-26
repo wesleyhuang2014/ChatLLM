@@ -4,10 +4,8 @@
 
 # Install
 
-```python
-pip
-install - U
-chatllm
+```shell
+pip install -U chatllm
 ```
 
 # [Docs](https://jie-yuan.github.io/ChatLLM/)
@@ -36,7 +34,8 @@ qa = ChatPDF(encode_model='nghuyong/ernie-3.0-nano-zh')
 qa.load_llm4chat(model_name_or_path="THUDM/chatglm-6b")
 for i, _ in qa(query='东北证券主营业务'):
     pass
-
+# 根据已知信息，东北证券的主营业务为证券业务。公司作为证券公司，主要从事证券经纪、证券投资咨询、与证券交易、
+# 证券投资活动有关的财务顾问、证券承销与保荐、证券自营、融资融券、证券投资基金代销和代销金融产品待业务。
 ```
 
 ![向量召回结果](data/imgs/chatpdf_ann_df.png)
