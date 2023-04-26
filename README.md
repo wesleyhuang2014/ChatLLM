@@ -9,7 +9,7 @@
 # Install
 
 ```python
-pip install -U llm4gpt
+pip install -U chatllm
 ```
 
 # [Docs](https://jie-yuan.github.io/ChatLLM/)
@@ -34,6 +34,8 @@ for i, _ in qa(query='周杰伦是谁', knowledge_base='周杰伦是傻子'):
 
 - [ ] 增加UI
 
+- [ ] 增加ChatPDF
+
 - [x] 增加本地知识库组件
 
 - [ ] 增加互联网搜索组件
@@ -42,7 +44,11 @@ for i, _ in qa(query='周杰伦是谁', knowledge_base='周杰伦是傻子'):
 
 - [ ] 增加微调模块
 
-- [ ] 增加流式输出
+- [x] 增加流式输出
+
+- [ ] 增加http接口
+
+- [ ] 增加grpc接口
 
 
 
