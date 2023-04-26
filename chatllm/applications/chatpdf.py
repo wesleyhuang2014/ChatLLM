@@ -20,9 +20,8 @@ class ChatPDF(ChatANN):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def create_ann_index(self, filename, textsplitter=textsplitter):  # todo 多篇
-        bytes_array = Path(filename).read_bytes()
-        texts = extract_text(stream=bytes_array)
+    def create_ann_index(self, file, textsplitter=textsplitter):  # todo 多篇 增加parser
+        texts = extract_text(file)
         texts = textsplitter(texts)
         return super().create_ann_index(texts)
 
@@ -30,6 +29,6 @@ class ChatPDF(ChatANN):
 if __name__ == '__main__':
     filename = '../../data/财报.pdf'
     bytes_array = Path(filename).read_bytes()
-    texts = extract_text(stream=bytes_array)
+    texts = extract_text(bytes_array)
     texts = textsplitter(texts)
     print(texts)

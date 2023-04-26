@@ -7,9 +7,7 @@
 # @Email        : meutils@qq.com
 # @Software     : PyCharm
 # @Description  : python meutils/clis/__init__.py
-
-
-import typer
+import os
 
 from meutils.pipe import *
 
@@ -24,6 +22,17 @@ def clitest(name: str = 'TEST'):
     @return:
     """
     typer.echo(f"Hello {name}")
+
+
+@cli.command()  # help会覆盖docstring
+def webui(name: str = 'chatpdf'):
+    """
+        chatllm-run webui --name chatpdf
+    :param name:
+    :return:
+    """
+    main = get_resolve_path(f'../webui/{name}.py', __file__)
+    os.system(f'streamlit run {main}')
 
 
 if __name__ == '__main__':

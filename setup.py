@@ -3,7 +3,6 @@
 """The setup script."""
 import time
 from setuptools import setup, find_packages
-# from llm4chat import __version__
 
 version = time.strftime("%Y.%m.%d.%H.%M.%S", time.localtime())
 
@@ -19,7 +18,7 @@ with open('requirements.txt', encoding='utf-8') as f:
 setup(
     author="yuanjie",
     author_email='313303303@qq.com',
-    python_requires='>=3.6',
+    python_requires='>=3.7',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
@@ -33,7 +32,7 @@ setup(
     description="Create a Python package.",
     entry_points={
         'console_scripts': [
-            'llm4gpt=llm4gpt.clis.cli:cli'
+            'chatllm-run=chatllm.clis.cli:cli'
         ],
     },
     install_requires=requirements,
@@ -45,10 +44,10 @@ setup(
     name='ChatLLM',
     # name='ChatSearch', # 抢占包
 
-    packages=find_packages(include=['chatllm', 'llm.*']),
+    packages=find_packages(include=['chatllm', 'chatllm.*']),
 
     test_suite='tests',
-    url='https://github.com/yuanjie-ai/llm4gpt',
+    url='https://github.com/yuanjie-ai/ChatLLM',
     version=version, # '0.0.0',
     zip_safe=False,
 )

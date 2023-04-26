@@ -28,7 +28,7 @@ class ChatBase(object):
     def __call__(self, **kwargs):
         return self.qa(**kwargs)
 
-    def qa(self, query, knowledge_base='', **kwargs):
+    def qa(self, query, knowledge_base='请自由回答', **kwargs):
         """可重写"""
         return self._qa(query, knowledge_base, **kwargs)
 

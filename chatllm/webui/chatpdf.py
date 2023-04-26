@@ -13,29 +13,65 @@ from meutils.pipe import *
 from meutils.office_automation.pdf import extract_text
 from appzoo.streamlit_app.utils import display_pdf, reply4input
 
-from chatllm.applications import ChatBase
-
+from chatllm.applications.chatpdf import ChatPDF
 
 st.set_page_config(page_title='🔥ChatPDF', layout='wide', initial_sidebar_state='collapsed')
 
 
+################################################################################################################
 class Conf(BaseConfig):
-    embedding = 'shibing624/text2vec-base-chinese'
+    encode_model = 'nghuyong/ernie-3.0-nano-zh'
+    llm = "THUDM/chatglm-6b"  # /Users/betterme/PycharmProjects/AI/CHAT_MODEL/chatglm
+    cachedir = 'pdf_cache'
+
+    topk: int = 3
+    threshold: float = 0.66
 
 
 conf = Conf()
 
 for k, v in conf:  # 更新配置
-    setattr(conf, k, st.sidebar.text_input(label=k, value=v))
+    v = type(v)(st.sidebar.text_input(label=k.upper(), value=v))
+    setattr(conf, k, v)
 
-file = st.sidebar.file_uploader("上传PDF", type=['pdf'])
-text = ''
-bytearray = None
-if file:
-    bytearray = file.read()
-    text = extract_text(stream=bytearray)
+
+@st.cache_resource()
+def qa4pdf(encode_model, model_name_or_path):
+    qa = ChatPDF(encode_model=encode_model)
+    qa.load_llm4chat(model_name_or_path=model_name_or_path)
+    return qa
+
+
+################################################################################################################
 
 tabs = st.tabs(['ChatPDF', 'PDF文件预览'])
+
+file = st.sidebar.file_uploader("上传PDF", type=['pdf'])
+bytes_array = ''
+if file:
+    bytes_array = file.read()
+    base64_pdf = base64.b64encode(bytes_array).decode('utf-8')
+
+    with tabs[1]:
+        if bytes_array:
+            display_pdf(base64_pdf)
+        else:
+            st.warning('### 请先上传PDF')
+################################################################################################################
+try:
+    qa = qa4pdf(conf.encode_model, conf.llm)
+    with st.spinner("构建知识库：文本向量化"):
+        disk_cache(location=conf.cachedir)(qa.create_ann_index)(bytes_array)
+except Exception as e:
+    st.warning('启动前选择正确的参数进行初始化')
+    st.error(e)
+
+
+################################################################################################################
+def reply_func(query):
+    for response, _ in qa(query=query, topk=conf.topk, threshold=conf.threshold):
+        yield response
+
 
 with tabs[0]:
     if file:
@@ -43,14 +79,13 @@ with tabs[0]:
         text = st.text_area(label="用户输入", height=100, placeholder="请在这儿输入您的问题")
 
         if st.button("发送", key="predict"):
-            with st.spinner("AI正在思考，请稍等........"):
+            with st.spinner("🤔 AI 正在思考，请稍等..."):
                 history = st.session_state.get('state')
-                st.session_state["state"] = reply4input(text, history, container=container)
-                print(st.session_state['state'])
+                st.session_state["state"] = reply4input(
+                    text, history, container=container,
+                    previous_messages=['请上传需要分析的PDF，我将为你解答'],
+                    reply_func=reply_func,
+                )
 
-with tabs[1]:
-    if file:
-        base64_pdf = base64.b64encode(bytearray).decode('utf-8')
-        display_pdf(base64_pdf)
-    else:
-        st.warning('### 请先上传PDF')
+        with st.expander('点击可查看被召回的知识'):
+            st.dataframe(qa._df)

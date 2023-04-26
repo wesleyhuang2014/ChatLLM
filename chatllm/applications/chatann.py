@@ -33,6 +33,9 @@ class ChatANN(ChatBase):
         # create_ann_index
         self.ann_index = None
 
+        # 召回结果df
+        self._df = pd.DataFrame()
+
     def qa(self, query, topk=3, threshold=0.66, **kwargs):
         df = self.ann_find(query, topk, threshold)
         if len(df) == 0:
