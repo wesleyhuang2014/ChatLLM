@@ -2,6 +2,8 @@
 
 <h1 align = "center">🔥ChatLLM🔥</h1>
 
+⛓️ 本项目实现原理如下图所示，过程包括加载文件 -> 读取文本 -> 文本分割 -> 文本向量化 -> 问句向量化 -> 在文本向量中匹配出与问句向量最相似的`top k`个 -> 匹配出的文本作为上下文和问题一起添加到`prompt`中 -> 提交给`LLM`生成回答。
+
 # Install
 
 ```shell
@@ -42,7 +44,37 @@ for i, _ in qa(query='东北证券主营业务'):
 
 </details>
 
----
+
+<details markdown="1">
+  <summary>Click to 开发部署</summary>
+
+- ChatGLM-6B 模型硬件需求
+
+    | **量化等级**   | **最低 GPU 显存**（推理） | **最低 GPU 显存**（高效参数微调） |
+    | -------------- | ------------------------- | --------------------------------- |
+    | FP16（无量化） | 13 GB                     | 14 GB                             |
+    | INT8           | 8 GB                     | 9 GB                             |
+    | INT4           | 6 GB                      | 7 GB                              |
+
+- Embedding 模型硬件需求
+
+    本项目中默认选用的 Embedding 模型 [GanymedeNil/text2vec-large-chinese](https://huggingface.co/GanymedeNil/text2vec-large-chinese/tree/main) 约占用显存 3GB，也可修改为在 CPU 中运行。
+
+## 开发部署
+
+### 软件需求
+
+本项目已在 Python 3.8 - 3.10，CUDA 11.7 环境下完成测试。已在 Windows、ARM 架构的 macOS、Linux 系统中完成测试。
+
+### 从本地加载模型
+
+请参考 [THUDM/ChatGLM-6B#从本地加载模型](https://github.com/THUDM/ChatGLM-6B#从本地加载模型)
+
+### 1. 安装环境
+
+参见 [安装指南](docs/INSTALL.md)。
+
+</details>
 
 <details markdown="1">
   <summary>Click to TODO</summary>
