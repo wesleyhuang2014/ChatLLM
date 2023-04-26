@@ -2,8 +2,6 @@
 
 <h1 align = "center">🔥ChatLLM 基于知识库🔥</h1>
 
-![架构图](data/imgs/LLM.drawio.png)
-
 <div align=center>
 <img src="data/imgs/LLM.drawio.png"/>
 </div>
