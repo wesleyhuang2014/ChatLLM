@@ -1,10 +1,6 @@
 ![image](https://img.shields.io/pypi/v/llm4gpt.svg) ![image](https://img.shields.io/travis/yuanjie-ai/llm4gpt.svg) ![image](https://readthedocs.org/projects/llm4gpt/badge/?version=latest)
 
-
-
 <h1 align = "center">🔥ChatLLM🔥</h1>
-
----
 
 # Install
 
