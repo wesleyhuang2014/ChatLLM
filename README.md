@@ -28,6 +28,14 @@ for i, _ in qa(query='周杰伦是谁', knowledge_base='周杰伦是傻子'):
 # 是具有一定的知名度和专业能力的人物，没有提供足够的信息无法判断他是傻子。
 ```
 
+<details markdown="1">
+  <summary>Click to ChatPDF</summary>
+
+```python
+pass
+```
+
+</details>
 ---
 
 # TODO
