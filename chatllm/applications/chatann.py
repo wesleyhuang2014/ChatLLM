@@ -30,32 +30,32 @@ class ChatANN(ChatBase):
 
         self.encode = SentenceEmbedding(encode_model).encode  # 加缓存
 
-        # create_ann_index
-        self.ann_index = None
+        # create index
+        self.index = None
 
         # 召回结果df
         self._df = pd.DataFrame()
 
     def qa(self, query, topk=3, threshold=0.66, **kwargs):
-        df = self.ann_find(query, topk, threshold)
+        df = self.find(query, topk, threshold)
         if len(df) == 0:
-            logger.warning('embedding召回内容为空!!!')
+            logger.warning('召回内容为空!!!')
         knowledge_base = '\n'.join(df.text)
 
         return self._qa(query, knowledge_base, **kwargs)
 
-    def ann_find(self, query, topk=5, threshold=0.66):  # 返回df
+    def find(self, query, topk=5, threshold=0.66):  # 返回df
         v = self.encode(query)[0]
         if self.backend == 'docarray':
-            result = self.ann_index.find(v, limit=topk)[:, ('id', 'text', 'scores__cosine__value')]
+            result = self.index.find(v, limit=topk)[:, ('id', 'text', 'scores__cosine__value')]
             df = pd.DataFrame(zip(*result))
             df.columns = ('id', 'text', 'score')
             df['score'] = 1 - df['score']
             self._df = df.query(f'score > {threshold}')
             return self._df
 
-    def create_ann_index(self, texts):
-        self.ann_index = self.encode(texts, show_progress_bar=True, return_document=True)
+    def create_index(self, texts):
+        self.index = self.encode(texts, show_progress_bar=True, return_document=True)
 
 
 if __name__ == '__main__':

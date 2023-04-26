@@ -60,7 +60,7 @@ if file:
 try:
     qa = qa4pdf(conf.encode_model, conf.llm)
     with st.spinner("构建知识库：文本向量化"):
-        disk_cache(location=conf.cachedir)(qa.create_ann_index)(bytes_array)
+        disk_cache(location=conf.cachedir)(qa.create_index)(bytes_array)
 except Exception as e:
     st.warning('启动前选择正确的参数进行初始化')
     st.error(e)

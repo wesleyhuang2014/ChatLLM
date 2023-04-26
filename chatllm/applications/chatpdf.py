@@ -20,10 +20,10 @@ class ChatPDF(ChatANN):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def create_ann_index(self, file, textsplitter=textsplitter):  # todo 多篇 增加parser
+    def create_index(self, file, textsplitter=textsplitter):  # todo 多篇 增加parser
         texts = extract_text(file)
         texts = textsplitter(texts)
-        return super().create_ann_index(texts)
+        return super().create_index(texts)
 
 
 if __name__ == '__main__':
