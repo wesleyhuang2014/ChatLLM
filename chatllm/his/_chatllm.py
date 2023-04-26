@@ -54,9 +54,9 @@ class ChatLLM(LLM):
 
 
 if __name__ == '__main__':
-    from llm.utils import llm_load
+    from chatllm.utils import llm_load
 
-    model, tokenizer = llm_load("/Users/betterme/PycharmProjects/AI/CHAT_MODEL/chatglm")
+    model, tokenizer = llm_load("/CHAT_MODEL/chatglm")
     glm = ChatLLM()
     glm.chat_func = partial(model.chat, tokenizer=tokenizer)
     glm.chat_func = partial(model.stream_chat, tokenizer=tokenizer)

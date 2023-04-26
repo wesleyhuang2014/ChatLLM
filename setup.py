@@ -3,7 +3,7 @@
 """The setup script."""
 import time
 from setuptools import setup, find_packages
-# from llm4gpt import __version__
+# from llm4chat import __version__
 
 version = time.strftime("%Y.%m.%d.%H.%M.%S", time.localtime())
 
@@ -17,7 +17,7 @@ with open('requirements.txt', encoding='utf-8') as f:
     requirements = f.read().split('\n')
 
 setup(
-    author="LLM4GPT",
+    author="yuanjie",
     author_email='313303303@qq.com',
     python_requires='>=3.6',
     classifiers=[
@@ -41,9 +41,11 @@ setup(
     long_description=readme + '\n\n' + history,
     long_description_content_type="text/markdown",
     include_package_data=True,
-    keywords='llm4gpt',
-    name='llm4gpt',
-    packages=find_packages(include=['llm', 'llm.*']),
+    keywords='chatllm',
+    name='ChatLLM',
+    # name='ChatSearch', # 抢占包
+
+    packages=find_packages(include=['chatllm', 'llm.*']),
 
     test_suite='tests',
     url='https://github.com/yuanjie-ai/llm4gpt',

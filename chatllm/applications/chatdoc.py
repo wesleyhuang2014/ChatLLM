@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @Project      : AI.  @by PyCharm
-# @File         : __init__.py
-# @Time         : 2023/4/20 16:50
+# @File         : chatdoc
+# @Time         : 2023/4/25 09:23
 # @Author       : betterme
 # @WeChat       : meutils
 # @Software     : PyCharm
 # @Description  :
 
-from llm.kb.FaissANN import FaissANN
+from meutils.pipe import *

@@ -29,7 +29,7 @@ class Question2Answer(object):
 
     @abstractmethod
     def qa(self):
-        pass
+        raise NotImplementedError("overwrite method!!!")
 
     def search4qa(self):
         pass
@@ -90,7 +90,7 @@ class Question2Answer(object):
 
 
 if __name__ == '__main__':
-    from llm.utils import llm_load
+    from chatllm.utils import llm_load
 
     model, tokenizer = llm_load("/Users/betterme/PycharmProjects/AI/CHAT_MODEL/chatglm")
     qa = Question2Answer(

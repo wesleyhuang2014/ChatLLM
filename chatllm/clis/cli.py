@@ -13,11 +13,11 @@ import typer
 
 from meutils.pipe import *
 
-cli = typer.Typer(name="llm4gpt CLI")
+cli = typer.Typer(name="ChatLLM CLI")
 
 
 @cli.command(help="help")  # help会覆盖docstring
-def clitest(name: str='TEST'):
+def clitest(name: str = 'TEST'):
     """
 
     @param name: name

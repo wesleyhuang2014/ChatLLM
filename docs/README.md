@@ -17,10 +17,10 @@ pip install -U llm4gpt
 # Usages
 
 ```python
-from llm.qa import QA
-from llm.utils import llm_load
-from llm.chatllm import ChatLLM
-from llm.kb.FaissANN import FaissANN
+from chatllm.his._qa import QA
+from chatllm.utils import llm_load
+from chatllm.his._chatllm import ChatLLM
+from chatllm.his.FaissANN import FaissANN
 
 from meutils.pipe import *
 
