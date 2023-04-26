@@ -64,7 +64,6 @@ for i, _ in qa(query='东北证券主营业务'):
 
     本项目中默认选用的 Embedding 模型 [GanymedeNil/text2vec-large-chinese](https://huggingface.co/GanymedeNil/text2vec-large-chinese/tree/main) 约占用显存 3GB，也可修改为在 CPU 中运行。
 
-## 开发部署
 
 ### 软件需求
 
@@ -73,6 +72,8 @@ for i, _ in qa(query='东北证券主营业务'):
 ### 从本地加载模型
 
 请参考 [THUDM/ChatGLM-6B#从本地加载模型](https://github.com/THUDM/ChatGLM-6B#从本地加载模型)
+
+[ChatGLM-6B Mac 本地部署实操记录](https://www.yuque.com/arvinxx/llm/chatglm-6b-deployment-on-mac)
 
 ### 1. 安装环境
 
@@ -105,7 +106,4 @@ for i, _ in qa(query='东北证券主营业务'):
 </details>
 
 
----
-
-[ChatGLM-6B Mac 本地部署实操记录](https://www.yuque.com/arvinxx/llm/chatglm-6b-deployment-on-mac)
 
