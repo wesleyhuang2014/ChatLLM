@@ -7,15 +7,29 @@
 # @WeChat       : meutils
 # @Software     : PyCharm
 # @Description  :
-from chatllm.applications import ChatBase
+
 from meutils.pipe import *
+from meutils.office_automation.pdf import extract_text, pdf2text
+
+from chatllm.utils import textsplitter
+from chatllm.applications.chatann import ChatANN
 
 
-class ChatPDF(ChatBase):
+class ChatPDF(ChatANN):
 
-    def __init__(self, chat_func):
-        super().__init__(chat_func)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
-    def qa(self, query, knowledge_base='', **kwargs):
-        """可重写"""
-        return self._qa(query, knowledge_base, **kwargs)
+    def create_ann_index(self, filename, textsplitter=textsplitter):
+        bytes_array = Path(filename).read_bytes()
+        texts = extract_text(stream=bytes_array)
+        texts = textsplitter(texts)
+        return super().create_ann_index(texts)
+
+
+if __name__ == '__main__':
+    filename = '../../data/财报.pdf'
+    bytes_array = Path(filename).read_bytes()
+    texts = extract_text(stream=bytes_array)
+    texts = textsplitter(texts)
+    print(texts)

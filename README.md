@@ -5,7 +5,9 @@
 # Install
 
 ```python
-pip install -U chatllm
+pip
+install - U
+chatllm
 ```
 
 # [Docs](https://jie-yuan.github.io/ChatLLM/)
@@ -28,8 +30,16 @@ for i, _ in qa(query='周杰伦是谁', knowledge_base='周杰伦是傻子'):
   <summary>Click to ChatPDF</summary>
 
 ```python
-pass
+from chatllm.applications.chatpdf import ChatPDF
+
+qa = ChatPDF(encode_model='nghuyong/ernie-3.0-nano-zh')
+qa.load_llm4chat(model_name_or_path="THUDM/chatglm-6b")
+for i, _ in qa(query='东北证券主营业务'):
+    pass
+
 ```
+
+![向量召回结果](data/imgs/chatpdf_ann_df.png)
 
 </details>
 
@@ -55,5 +65,7 @@ pass
 
 - [ ] 增加grpc接口
 
+---
 
+[ChatGLM-6B Mac 本地部署实操记录](https://www.yuque.com/arvinxx/llm/chatglm-6b-deployment-on-mac)
 

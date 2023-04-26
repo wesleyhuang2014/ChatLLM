@@ -13,9 +13,20 @@ from meutils.pipe import *
 from meutils.office_automation.pdf import extract_text
 from appzoo.streamlit_app.utils import display_pdf, reply4input
 
-st.set_page_config(layout='wide')
+from chatllm.applications import ChatBase
 
-agree = st.sidebar.selectbox('I agree', options=['shibing624/text2vec-base-chinese'])
+
+st.set_page_config(page_title='🔥ChatPDF', layout='wide', initial_sidebar_state='collapsed')
+
+
+class Conf(BaseConfig):
+    embedding = 'shibing624/text2vec-base-chinese'
+
+
+conf = Conf()
+
+for k, v in conf:  # 更新配置
+    setattr(conf, k, st.sidebar.text_input(label=k, value=v))
 
 file = st.sidebar.file_uploader("上传PDF", type=['pdf'])
 text = ''
@@ -24,9 +35,8 @@ if file:
     bytearray = file.read()
     text = extract_text(stream=bytearray)
 
-
-
 tabs = st.tabs(['ChatPDF', 'PDF文件预览'])
+
 with tabs[0]:
     if file:
         container = st.container()  # 占位符
@@ -35,7 +45,7 @@ with tabs[0]:
         if st.button("发送", key="predict"):
             with st.spinner("AI正在思考，请稍等........"):
                 history = st.session_state.get('state')
-                st.session_state["state"] = reply4input(text, history, container=container, reply_func=reply_func )
+                st.session_state["state"] = reply4input(text, history, container=container)
                 print(st.session_state['state'])
 
 with tabs[1]:
@@ -44,7 +54,3 @@ with tabs[1]:
         display_pdf(base64_pdf)
     else:
         st.warning('### 请先上传PDF')
-
-
-
-

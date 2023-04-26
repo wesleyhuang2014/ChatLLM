@@ -17,7 +17,7 @@ from meutils.docarray_ import Document, DocumentArray
 class SentenceEmbedding(object):
     def __init__(self, model_name_or_path="shibing624/text2vec-base-chinese", device=None):
         """
-            disk_cache()(DocEmbedding().encode)
+            disk_cache()(SentenceEmbedding().encode)
         :param model_name_or_path:
         :param device:
         """

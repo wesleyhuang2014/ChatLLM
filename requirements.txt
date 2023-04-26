@@ -1,4 +1,10 @@
 meutils
 transformers
 sentence_transformers
-# langchain
+
+
+# chatglm
+cpm_kernels
+
+# pdf
+pymupdf

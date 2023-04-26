@@ -9,27 +9,56 @@
 # @Description  :
 
 from meutils.pipe import *
-from chatllm.applications import Chat
+from chatllm.applications import ChatBase
+from chatllm.embedding import SentenceEmbedding
 
 
-class ANN4QA(Chat):
+class ChatANN(ChatBase):
 
-    def __init__(self, chat_func):
-        super().__init__(chat_func)
+    def __init__(self, backend='docarray', encode_model="nghuyong/ernie-3.0-nano-zh", **kwargs):
+        """
 
-    # def qa(self, query, knowledge_base='', **kwargs):
-    #     pass
+        :param backend:
+        :param encode_model:
+            "nghuyong/ernie-3.0-nano-zh"
+            "shibing624/text2vec-base-chinese"
+            "GanymedeNil/text2vec-large-chinese"
+        :param kwargs:
+        """
+        super().__init__(**kwargs)
+        self.backend = backend  # todo 增加更多的ann后端
+
+        self.encode = SentenceEmbedding(encode_model).encode  # 加缓存
+
+        # create_ann_index
+        self.ann_index = None
+
+    def qa(self, query, topk=5, threshold=0.66, **kwargs):
+        df = self.ann_find(query, topk, threshold)
+        if len(df) == 0:
+            logger.warning('embedding召回内容为空!!!')
+        knowledge_base = '\n'.join(df.text)
+
+        return self._qa(query, knowledge_base, **kwargs)
+
+    def ann_find(self, query, topk=5, threshold=0.66):  # 返回df
+        v = self.encode(query)[0]
+        if self.backend == 'docarray':
+            result = self.ann_index.find(v, limit=topk)[:, ('id', 'text', 'scores__cosine__value')]
+            df = pd.DataFrame(zip(*result))
+            df.columns = ('id', 'text', 'score')
+            df['score'] = 1 - df['score']
+            self._df = df.query(f'score > {threshold}')
+            return self._df
+
+    def create_ann_index(self, texts):
+        self.ann_index = self.encode(texts, show_progress_bar=True, return_document=True)
 
 
 if __name__ == '__main__':
-    from chatllm.utils import load_llm4chat
 
-    chat_func = load_llm4chat(
-        model_name_or_path="/Users/betterme/PycharmProjects/AI/CHAT_MODEL/chatglm",
-        device='mps',
-    )
-
-    qa = ANN4QA(chat_func=chat_func)
+    qa = ChatANN(chat_func=None)
+    qa.load_llm4chat(model_name_or_path="/Users/betterme/PycharmProjects/AI/CHAT_MODEL/chatglm")
 
     for i, _ in qa(query='1+1'):
-        print(i)
+        pass
