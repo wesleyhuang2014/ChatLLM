@@ -40,7 +40,7 @@ for i, _ in qa(query='东北证券主营业务'):
 # 证券投资活动有关的财务顾问、证券承销与保荐、证券自营、融资融券、证券投资基金代销和代销金融产品待业务。
 ```
 
-![向量召回结果](data/imgs/chatpdf_ann_df.png)
+<img alt="向量召回结果" src="data/imgs/chatpdf_ann_df.png"/>
 
 </details>
 
