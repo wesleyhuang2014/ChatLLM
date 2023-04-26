@@ -4,6 +4,10 @@
 
 ![架构图](data/imgs/LLM.drawio.png)
 
+<div align=center>
+<img src="data/imgs/LLM.drawio.png"/>
+</div>
+
 # Install
 
 ```shell
