@@ -45,7 +45,8 @@ for i, _ in qa(query='东北证券主营业务'):
 
 ---
 
-# TODO
+<details markdown="1">
+  <summary>Click to TODO</summary
 
 - [ ] 增加UI
 
@@ -64,6 +65,9 @@ for i, _ in qa(query='东北证券主营业务'):
 - [ ] 增加http接口
 
 - [ ] 增加grpc接口
+
+</details>
+
 
 ---
 

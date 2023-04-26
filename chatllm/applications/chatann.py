@@ -33,7 +33,7 @@ class ChatANN(ChatBase):
         # create_ann_index
         self.ann_index = None
 
-    def qa(self, query, topk=5, threshold=0.66, **kwargs):
+    def qa(self, query, topk=3, threshold=0.66, **kwargs):
         df = self.ann_find(query, topk, threshold)
         if len(df) == 0:
             logger.warning('embedding召回内容为空!!!')
