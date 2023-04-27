@@ -20,8 +20,9 @@ class ChatPDF(ChatANN):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def create_index(self, file, textsplitter=textsplitter):  # todo 多篇 增加parser
-        texts = extract_text(file)
+    def create_index(self, file_or_text, textsplitter=textsplitter):  # todo 多篇 增加 parser loader
+
+        texts = extract_text(file_or_text)
         texts = textsplitter(texts)
         return super().create_index(texts)
 
@@ -35,7 +36,7 @@ if __name__ == '__main__':
     from chatllm.applications.chatpdf import ChatPDF
 
     qa = ChatPDF(encode_model='nghuyong/ernie-3.0-nano-zh')  # 自动建索引
-    qa.load_llm4chat(model_name_or_path='/Users/betterme/PycharmProjects/AI/CHAT_MODEL/chatglm')
+    qa.load_llm4chat(model_name_or_path='/Users/betterme/PycharmProjects/AI/CHAT_MODEL/chatglm', device='cpu')
     qa.create_index('../../data/财报.pdf')
 
     for i, _ in qa(query='东北证券主营业务', topk=1, threshold=0.8):

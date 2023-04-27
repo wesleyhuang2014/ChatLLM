@@ -16,7 +16,8 @@ from chatllm.utils import DEVICE, load_llm4chat
 
 class ChatBase(object):
 
-    def __init__(self, chat_func=None, prompt_template=None, role='你扮演的角色是ChatLLM项目助理，由Betterme二次开发'):
+    def __init__(self, chat_func=None, prompt_template=None,
+                 role='你扮演的角色是ChatLLM智能助理，是由Betterme开发'):
         self.chat_func = chat_func
         self.prompt_template = prompt_template if prompt_template else self.default_document_prompt
         self.role = role
@@ -28,7 +29,7 @@ class ChatBase(object):
     def __call__(self, **kwargs):
         return self.qa(**kwargs)
 
-    def qa(self, query, knowledge_base='请自由回答', **kwargs):
+    def qa(self, query, knowledge_base='', **kwargs):
         """可重写"""
         return self._qa(query, knowledge_base, **kwargs)
 
@@ -36,11 +37,10 @@ class ChatBase(object):
         self.chat_func = partial(self.chat_func, **kwargs)
 
     @clear_cuda_cache
-    def _qa(self, query, knowledge_base='请自由回答', max_turns=1):
+    def _qa(self, query, knowledge_base='', max_turns=1):
+        self.knowledge_base = knowledge_base if knowledge_base.strip() else '请自由回答'
 
-        if knowledge_base:
-            self.knowledge_base = knowledge_base
-            query = self.prompt_template.format(context=knowledge_base, question=query, role=self.role)
+        query = self.prompt_template.format(context=self.knowledge_base, question=query, role=self.role)
 
         _history = self.history[-(max_turns - 1):] if max_turns > 1 else []
         result = self.chat_func(query=query, history=_history)
@@ -69,7 +69,8 @@ class ChatBase(object):
     @property
     def default_document_prompt(self):
         prompt_template = """
-            {role} 基于以下已知信息，简洁和专业的来回答问题。
+            {role}
+            基于以下已知信息，简洁和专业的来回答问题。
             如果无法从中得到答案，请说 "根据已知信息无法回答该问题" 或 "没有提供足够的信息"，不允许在答案中添加编造成分，答案请使用中文。
             已知信息: {context}
             问题: {question}
@@ -87,5 +88,5 @@ if __name__ == '__main__':
     for i, _ in qa(query='周杰伦是谁', knowledge_base='周杰伦是傻子'):
         pass
 
-    for i, _ in qa(query='你是谁', knowledge_base='自由回答'):
+    for i, _ in qa(query='你是谁', knowledge_base=''):
         pass

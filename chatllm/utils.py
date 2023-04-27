@@ -19,6 +19,7 @@ DEVICE = (
     if torch.backends.mps.is_available() else "cpu"
 )
 
+
 # todo 多卡 https://github.com/THUDM/ChatGLM-6B#%E5%A4%9A%E5%8D%A1%E9%83%A8%E7%BD%B2
 
 def textsplitter(text, chunk_size=512, overlap_rate=0.2, sep=''):  # 简单粗暴
@@ -27,7 +28,7 @@ def textsplitter(text, chunk_size=512, overlap_rate=0.2, sep=''):  # 简单粗�
 
 def load_llm4chat(model_name_or_path="THUDM/chatglm-6b", device=DEVICE, stream=True, **kwargs):
     model, tokenizer = load_llm(model_name_or_path, device, **kwargs)
-    if stream:
+    if stream and hasattr(model, 'stream_chat'):
         return partial(model.stream_chat, tokenizer=tokenizer)
     else:
         return partial(model.chat, tokenizer=tokenizer)
@@ -43,6 +44,8 @@ def load_llm(model_name_or_path="THUDM/chatglm-6b", device=DEVICE, device_map: O
         num_gpus = torch.cuda.device_count()
         if num_gpus < 2 and device_map is None:
             model = model.half().cuda()
+            # model.transformer.prefix_encoder.float()
+
         else:
             from accelerate import dispatch_model
             # 可传入device_map自定义每张卡的部署情况
@@ -88,4 +91,4 @@ def auto_configure_device_map(num_gpus: int) -> Dict[str, int]:
 
 
 if __name__ == '__main__':
-    a = llm_load("/Users/betterme/PycharmProjects/AI/CHAT_MODEL/chatglm")
+    model, tokenizer = load_llm("/Users/betterme/PycharmProjects/AI/CHAT_MODEL/chatglm", device='cpu')
