@@ -12,9 +12,9 @@
 from meutils.pipe import *
 
 from chatllm.utils import llm_load
-from chatllm.his._chatllm import ChatLLM
-from chatllm.his.FaissANN import FaissANN
-from chatllm.his._qa import QA
+from chatllm._his._chatllm import ChatLLM
+from chatllm._his.FaissANN import FaissANN
+from chatllm._his._qa import QA
 
 model, tokenizer = llm_load("/Users/betterme/PycharmProjects/AI/CHAT_MODEL/chatglm")
 glm = ChatLLM()

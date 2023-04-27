@@ -13,7 +13,7 @@ from langchain.prompts.prompt import PromptTemplate
 from langchain.vectorstores import FAISS
 
 # ME
-from chatllm.his._chatllm import ChatLLM
+from chatllm._his._chatllm import ChatLLM
 
 RetrievalQA.return_source_documents = True
 

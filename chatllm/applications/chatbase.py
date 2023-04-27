@@ -16,11 +16,10 @@ from chatllm.utils import DEVICE, load_llm4chat
 
 class ChatBase(object):
 
-    def __init__(self, chat_func=None, prompt_template=None,
-                 role='你扮演的角色是ChatLLM智能助理，是由Betterme开发'):
+    def __init__(self, chat_func=None, prompt_template=None, role=''):
         self.chat_func = chat_func
         self.prompt_template = prompt_template if prompt_template else self.default_document_prompt
-        self.role = role
+        self.role = role or os.environ.get('LLM_ROLE', '')
 
         #
         self.history = []
@@ -67,7 +66,8 @@ class ChatBase(object):
         self.chat_func = load_llm4chat(model_name_or_path, device, stream, **kwargs)
 
     @property
-    def default_document_prompt(self):
+    def default_document_prompt(
+        self):  # 重写 chat函数会更好 prompt += "[Round {}]\n问：{}\n答：{}\n".format(i, old_query, response)
         prompt_template = """
             {role}
             基于以下已知信息，简洁和专业的来回答问题。

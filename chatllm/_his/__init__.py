@@ -8,4 +8,4 @@
 # @Software     : PyCharm
 # @Description  :
 
-from chatllm.his.FaissANN import FaissANN
+from chatllm._his.FaissANN import FaissANN
