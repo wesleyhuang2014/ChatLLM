@@ -10,15 +10,20 @@
 
 from meutils.pipe import *
 from chatllm.applications import ChatBase
-from chatllm.embedding import SentenceEmbedding
+
+from docarray import DocList, BaseDoc
+from docarray.typing import TorchTensor
+from docarray.utils.find import find
+from docarray.utils.filter import filter_docs
+from sentence_transformers import SentenceTransformer
 
 
 class ChatANN(ChatBase):
 
-    def __init__(self, backend='docarray', encode_model="nghuyong/ernie-3.0-nano-zh", **kwargs):
+    def __init__(self, backend='in_memory', encode_model="nghuyong/ernie-3.0-nano-zh", **kwargs):
         """
-
         :param backend:
+            'in_memory' # todo: 支持更多后端
         :param encode_model:
             "nghuyong/ernie-3.0-nano-zh"
             "shibing624/text2vec-base-chinese"
@@ -26,15 +31,15 @@ class ChatANN(ChatBase):
         :param kwargs:
         """
         super().__init__(**kwargs)
-        self.backend = backend  # todo 增加更多的ann后端
+        self.backend = backend
 
-        self.encode = SentenceEmbedding(encode_model).encode  # 加缓存
+        self.encode = SentenceTransformer(encode_model).encode  # 加缓存，可重新set
 
         # create index
         self.index = None
 
         # 召回结果df
-        self._df = pd.DataFrame({'id': [], 'text': [], 'score': []})
+        self.recall = pd.DataFrame({'id': [], 'text': [], 'score': []})
 
     def qa(self, query, topk=3, threshold=0.66, **kwargs):
         df = self.find(query, topk, threshold)
@@ -45,23 +50,39 @@ class ChatANN(ChatBase):
         return self._qa(query, knowledge_base, **kwargs)
 
     def find(self, query, topk=5, threshold=0.66):  # 返回df
-        v = self.encode(query)[0]
-        if self.backend == 'docarray':
-            result = self.index.find(v, limit=topk)[:, ('id', 'text', 'scores__cosine__value')]
-            df = pd.DataFrame(zip(*result))
-            df.columns = ('id', 'text', 'score')
-            df['score'] = 1 - df['score']
-            self._df = df.query(f'score > {threshold}')
-            return self._df
+        v = self.encode(query)  # np
+
+        if self.backend == 'in_memory':
+            r = self.index.find(TorchTensor(v), topk)
+            self.recall = (
+                # r.documents.to_dataframe() # bug
+                pd.DataFrame(json.loads(r.documents.to_json()))
+                .assign(score=r.scores)
+                .query(f'score > {threshold}')
+            )
+
+        return self.recall
 
     def create_index(self, texts):
-        self.index = self.encode(texts, show_progress_bar=True, return_document=True)
+        tensors = self.encode(texts, show_progress_bar=True, convert_to_numpy=False)
+
+        class Document(BaseDoc):
+            text: str
+            embedding: TorchTensor
+
+        self.index = DocList[Document]()
+        self.index.extend([Document(text=text, embedding=tensor) for text, tensor in zip(texts, tensors)])
+        self.index.find = lambda query, topk=3: find(self.index, query, limit=topk, search_field='embedding')
+
+        return self.index
 
 
 if __name__ == '__main__':
 
-    qa = ChatANN(chat_func=None)
+    qa = ChatANN(encode_model="nghuyong/ernie-3.0-nano-zh")
     qa.load_llm4chat(model_name_or_path="/Users/betterme/PycharmProjects/AI/CHAT_MODEL/chatglm")
+    qa.create_index(['周杰伦'] * 10)
 
-    for i, _ in qa(query='1+1'):
+    for i, _ in qa(query='有几个周杰伦'):
         pass
+    print(qa.recall)

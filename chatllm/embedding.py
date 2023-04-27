@@ -15,13 +15,13 @@ from meutils.docarray_ import Document, DocumentArray
 # 增加 docarray v2
 # 增加 ann后端
 class SentenceEmbedding(object):
-    def __init__(self, model_name_or_path="shibing624/text2vec-base-chinese", device=None):
+    def __init__(self, model_name_or_path="shibing624/text2vec-base-chinese", **st_kwargs):
         """
             disk_cache()(SentenceEmbedding().encode)
         :param model_name_or_path:
         :param device:
         """
-        self.st = SentenceTransformer(model_name_or_path, device)
+        self.st = SentenceTransformer(model_name_or_path, **st_kwargs)
 
     def __call__(self, *args, **kwargs):
         return self.encode(*args, **kwargs)

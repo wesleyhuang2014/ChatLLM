@@ -16,7 +16,7 @@ from chatllm.utils import DEVICE, load_llm4chat
 
 class ChatBase(object):
 
-    def __init__(self, chat_func=None, prompt_template=None, role='你扮演的角色是ChatLLM项目助理，由Betterme开发'):
+    def __init__(self, chat_func=None, prompt_template=None, role='你扮演的角色是ChatLLM项目助理，由Betterme二次开发'):
         self.chat_func = chat_func
         self.prompt_template = prompt_template if prompt_template else self.default_document_prompt
         self.role = role

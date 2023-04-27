@@ -1,4 +1,5 @@
 meutils
+docarray
 transformers
 sentence_transformers
 
@@ -9,3 +10,4 @@ cpm_kernels
 # pdf
 pymupdf
 typer
+

@@ -24,7 +24,7 @@ class ChatWhoosh(ChatBase, EasySearch):
     def __init__(self, indexdir='whoosh_index', indexname='MAIN', **kwargs):
         ChatBase.__init__(self, **kwargs)
         EasySearch.__init__(self, indexdir, indexname)
-        self._df = pd.DataFrame({'id': [], 'text': [], 'score': []})
+        self.recall = pd.DataFrame({'id': [], 'text': [], 'score': []})
 
     def qa(self, query, topk=3, threshold=0.66, **kwargs):
         df = self.find(query, topk, threshold)
@@ -37,8 +37,8 @@ class ChatWhoosh(ChatBase, EasySearch):
     def find(self, query, topk=3, threshold=0.66, **kwargs):
         df = super().find(defaultfield='text', querystring=query, limit=topk, **kwargs)
         if len(df):
-            self._df = df.query(f'score > {threshold}')
-        return self._df
+            self.recall = df.query(f'score > {threshold}')
+        return self.recall
 
     def create_index(self, texts, id_mapping=md5, **kwargs):
         ids = map(id_mapping, texts)
@@ -55,4 +55,4 @@ if __name__ == '__main__':
 
     cw = ChatWhoosh(indexdir='whoosh_index')
     cw.create_index(texts=['周杰伦'] * 10)
-    cw.find('周杰伦')
+    print(cw.find('周杰伦'))
