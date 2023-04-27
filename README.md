@@ -12,7 +12,7 @@
 pip install -U chatllm
 ```
 
-## [Docs](https://jie-yuan.github.io/ChatLLM/)
+## [Docs](https://yuanjie-ai.github.io/ChatLLM/)
 
 ## Usages
 
