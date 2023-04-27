@@ -64,10 +64,6 @@ list(qa(query='东北证券主营业务'))
     | INT8           | 8 GB                     | 9 GB                             |
     | INT4           | 6 GB                      | 7 GB                              |
 
-- Embedding 模型硬件需求
-
-    本项目中默认选用的 Embedding 模型 [GanymedeNil/text2vec-large-chinese](https://huggingface.co/GanymedeNil/text2vec-large-chinese/tree/main) 约占用显存 3GB，也可修改为在 CPU 中运行。
-
 
 ### 软件需求
 
@@ -90,6 +86,9 @@ list(qa(query='东北证券主营业务'))
   - [ ] 结构化数据接入（如 csv、Excel、SQL 等）
   - [ ] 知识图谱/图数据库接入
   - [ ] Agent 实现
+  - [ ] 增加 ANN 后端，ES/RedisSearch【确保生产高可用】
+  - [ ] 增加多级缓存缓存
+
 - [ ] 增加更多 LLM 模型支持
   - [x] [THUDM/chatglm-6b](https://huggingface.co/THUDM/chatglm-6b)
   - [ ] [THUDM/chatglm-6b-int8](https://huggingface.co/THUDM/chatglm-6b-int8)
