@@ -18,25 +18,26 @@ class ChatBase(object):
 
     def __init__(self, chat_func=None, prompt_template=None, role=''):
         self.chat_func = chat_func
-        self.prompt_template = prompt_template if prompt_template else self.default_document_prompt
-        self.role = role or os.environ.get('LLM_ROLE', '')
+        self.prompt_template = prompt_template or self.default_document_prompt
 
         #
         self.history = []
         self.knowledge_base = None
+        self.role = None
 
     def __call__(self, **kwargs):
         return self.qa(**kwargs)
 
     def qa(self, query, knowledge_base='', **kwargs):
-        """可重写"""
+        """重写"""
         return self._qa(query, knowledge_base, **kwargs)
 
     def set_chat_kwargs(self, **kwargs):
         self.chat_func = partial(self.chat_func, **kwargs)
 
     @clear_cuda_cache
-    def _qa(self, query, knowledge_base='', max_turns=1):
+    def _qa(self, query, knowledge_base='', role='', max_turns=1):
+        self.role = role or os.environ.get('LLM_ROLE', '')
         self.knowledge_base = knowledge_base if knowledge_base.strip() else '请自由回答'
 
         query = self.prompt_template.format(context=self.knowledge_base, question=query, role=self.role)
