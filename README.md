@@ -65,14 +65,10 @@ list(qa(query='东北证券主营业务'))
     | INT4           | 6 GB                      | 7 GB                              |
 
 
-### 软件需求
-
-本项目已在 Python 3.8 - 3.10，CUDA 11.7 环境下完成测试。已在 Windows、ARM 架构的 macOS、Linux 系统中完成测试。
-
-### 从本地加载模型
-- [安装指南](docs/INSTALL.md)
-- [ChatGLM-6B Mac 本地部署实操记录](https://www.yuque.com/arvinxx/llm/chatglm-6b-deployment-on-mac)
-- [THUDM/ChatGLM-6B#从本地加载模型](https://github.com/THUDM/ChatGLM-6B#从本地加载模型)
+- 从本地加载模型
+  - [安装指南](docs/INSTALL.md)
+  - [ChatGLM-6B Mac 本地部署实操记录](https://www.yuque.com/arvinxx/llm/chatglm-6b-deployment-on-mac)
+  - [THUDM/ChatGLM-6B#从本地加载模型](https://github.com/THUDM/ChatGLM-6B#从本地加载模型)
 
 </details>
 
