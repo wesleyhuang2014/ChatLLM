@@ -29,7 +29,7 @@ _ = list(qa(query='周杰伦是谁', knowledge_base='周杰伦是傻子'))
 - 支持角色扮演
 ![img.png](data/imgs/role.png)
 
-## ChatPDF应用
+## ChatPDF
 <details markdown="1">
   <summary>Click to ChatPDF</summary>
 
@@ -74,18 +74,13 @@ list(qa(query='东北证券主营业务'))
 本项目已在 Python 3.8 - 3.10，CUDA 11.7 环境下完成测试。已在 Windows、ARM 架构的 macOS、Linux 系统中完成测试。
 
 ### 从本地加载模型
-
-请参考 [THUDM/ChatGLM-6B#从本地加载模型](https://github.com/THUDM/ChatGLM-6B#从本地加载模型)
-
-[ChatGLM-6B Mac 本地部署实操记录](https://www.yuque.com/arvinxx/llm/chatglm-6b-deployment-on-mac)
-
-### 1. 安装环境
-
-参见 [安装指南](docs/INSTALL.md)。
+- [安装指南](docs/INSTALL.md)
+- [ChatGLM-6B Mac 本地部署实操记录](https://www.yuque.com/arvinxx/llm/chatglm-6b-deployment-on-mac)
+- [THUDM/ChatGLM-6B#从本地加载模型](https://github.com/THUDM/ChatGLM-6B#从本地加载模型)
 
 </details>
 
-## 路线图
+## TODO
 <details markdown="1">
   <summary>Click to TODO</summary>
 
