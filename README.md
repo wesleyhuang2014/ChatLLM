@@ -51,10 +51,10 @@ list(qa(query='东北证券主营业务'))
 
 </details>
 
-## 开发部署
+## Deploy
 
 <details markdown="1">
-  <summary>Click to 开发部署</summary>
+  <summary>Click to Deploy</summary>
 
 - ChatGLM-6B 模型硬件需求
 
