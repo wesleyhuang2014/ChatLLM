@@ -84,21 +84,11 @@ list(qa(query='东北证券主营业务'))
 <details markdown="1">
   <summary>Click to TODO</summary>
 
-
-- [x] 增加ChatPDF
-
-- [x] 增加ChatWoosh
-
-- [x] 增加本地知识库组件
-
-- [ ] 增加互联网搜索组件
-- [ ] 增加知识图谱组件
-
-
 - [ ] ChatLLM 应用
+  - [x] 增加 ANN 后端，包括 ES、RedisSearch、Faiss
   - [x] 接入非结构化文档（已支持 md、pdf、docx、txt 文件格式）
-  - [ ] 搜索引擎与本地网页接入
-  - [ ] 结构化数据接入（如 csv、Excel、SQL 等）
+  - [x] 搜索引擎与本地网页接入
+  - [x] 结构化数据接入（如 csv、Excel、SQL 等）
   - [ ] 知识图谱/图数据库接入
   - [ ] Agent 实现
 - [ ] 增加更多 LLM 模型支持
