@@ -87,4 +87,4 @@ with tabs[0]:
                 )
 
         with st.expander('点击可查看被召回的知识'):
-            st.dataframe(qa._df)
+            st.dataframe(qa.recall)

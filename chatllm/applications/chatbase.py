@@ -16,10 +16,8 @@ from chatllm.utils import DEVICE, load_llm4chat
 
 class ChatBase(object):
 
-    def __init__(self, chat_func=None, prompt_template=None, role=''):
+    def __init__(self, chat_func=None):
         self.chat_func = chat_func
-        self.prompt_template = prompt_template or self.default_document_prompt
-
         #
         self.history = []
         self.knowledge_base = None
@@ -47,7 +45,7 @@ class ChatBase(object):
 
         if isinstance(result, types.GeneratorType):
             return self._stream(result)
-        else:  # list(self._stream(result)) 想办法合并
+        else:
             response, history = result
             # self.history_ = history  # 历史所有
             self.history += [[None, response]]  # 置空知识
@@ -63,13 +61,13 @@ class ChatBase(object):
         self.history += [[None, response]]  # 置空知识
 
     def load_llm4chat(self, model_name_or_path="THUDM/chatglm-6b", device=DEVICE, stream=True, **kwargs):
-        assert not self.chat_func, "overwrite chat_func"
         self.chat_func = load_llm4chat(model_name_or_path, device, stream, **kwargs)
 
     @property
-    def default_document_prompt(
-        self):  # 重写 chat函数会更好 prompt += "[Round {}]\n问：{}\n答：{}\n".format(i, old_query, response)
-        prompt_template = """
+    def prompt_template(self):
+        # 重写 chat函数会更好 prompt += "[Round {}]\n问：{}\n答：{}\n".format(i, old_query, response)
+        # 根据角色配置模板
+        return """
             {role}
             基于以下已知信息，简洁和专业的来回答问题。
             如果无法从中得到答案，请说 "根据已知信息无法回答该问题" 或 "没有提供足够的信息"，不允许在答案中添加编造成分，答案请使用中文。
@@ -77,7 +75,25 @@ class ChatBase(object):
             问题: {question}
             """.strip()
 
-        return prompt_template
+    def run_serving(self, host='127.0.0.1', port=8000, path='/'):
+        from flask import Flask, Response, jsonify, request
+
+        app = Flask(__name__)
+
+        def gen(**input):
+            for response, _ in self.qa(**input):
+                yield f"{response}\n"
+
+        @app.route(rule=path, methods=['GET', 'POST'])
+        def stream():
+            input = {'query': '1+1等于几'}
+            input.update(request.args.to_dict())
+            if request.data.startswith(b'{'):
+                input.update(json.loads(request.data))
+
+            return Response(gen(**input), mimetype='text/event-stream')
+
+        app.run(host=host, port=port, debug=False)
 
 
 if __name__ == '__main__':
@@ -86,8 +102,7 @@ if __name__ == '__main__':
     qa = ChatBase()
     qa.load_llm4chat(model_name_or_path="/Users/betterme/PycharmProjects/AI/CHAT_MODEL/chatglm")
 
-    for i, _ in qa(query='周杰伦是谁', knowledge_base='周杰伦是傻子'):
-        pass
+    # list(qa(query='你是谁', knowledge_base=''))
+    # list(qa(query='你是谁', knowledge_base='周杰伦是傻子', role=' '))
 
-    for i, _ in qa(query='你是谁', knowledge_base=''):
-        pass
+    qa.run_serving()

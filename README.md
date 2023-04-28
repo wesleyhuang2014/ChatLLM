@@ -120,7 +120,7 @@ list(qa(query='东北证券主营业务'))
     - [ ] 上传文件/文件夹至知识库
     - [ ] 删除知识库中文件
 - [ ] 增加 API 支持
-  - [ ] 利用 Fastapi/Flask/Grpc 实现流式接口
+  - [x] 利用 Fastapi/Flask/Grpc 实现流式接口 `chatllm-run flask-api --model_name_or_path <MODEL_PATH> --host 127.0.0.1 --port 8000`
   - [ ] 前后端分离，实现调用 API 的 Web UI Demo
 
 ## 交流群
