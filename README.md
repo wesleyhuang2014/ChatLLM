@@ -22,7 +22,7 @@ from chatllm.applications import ChatBase
 qa = ChatBase()
 qa.load_llm4chat(model_name_or_path="THUDM/chatglm-6b")
 
-_ = list(qa(query='周杰伦是谁', knowledge_base='周杰伦是傻子'))
+_ = list(qa(query='周杰伦是谁', knowledge_base='周杰伦是傻子', role=' '))
 # 根据已知信息无法回答该问题，因为周杰伦是中国内地流行歌手、演员、音乐制作人、导演，
 # 是具有一定的知名度和专业能力的人物，没有提供足够的信息无法判断他是傻子。
 ```

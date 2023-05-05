@@ -23,6 +23,9 @@ class ChatBase(object):
         self.knowledge_base = None
         self.role = None
 
+        # 重写 chat函数会更好 prompt += "[Round {}]\n问：{}\n答：{}\n".format(i, old_query, response) # 根据角色配置模板
+        self.prompt_template = os.environ.get('PROMPT_TEMPLATE', '{role}')
+
     def __call__(self, **kwargs):
         return self.qa(**kwargs)
 
@@ -36,9 +39,11 @@ class ChatBase(object):
     @clear_cuda_cache
     def _qa(self, query, knowledge_base='', role='', max_turns=1):
         self.role = role or os.environ.get('LLM_ROLE', '')
-        self.knowledge_base = knowledge_base if knowledge_base.strip() else '请自由回答'
-
-        query = self.prompt_template.format(context=self.knowledge_base, question=query, role=self.role)
+        self.knowledge_base = str(knowledge_base).strip()
+        if self.knowledge_base:
+            query = self.prompt_template.format(context=self.knowledge_base, question=query, role=self.role).strip()
+        else:
+            query = """{role}\n{question}""".format(question=query, role=self.role).strip()  # 简化模版
 
         _history = self.history[-(max_turns - 1):] if max_turns > 1 else []
         result = self.chat_func(query=query, history=_history)
@@ -62,18 +67,6 @@ class ChatBase(object):
 
     def load_llm4chat(self, model_name_or_path="THUDM/chatglm-6b", device=DEVICE, stream=True, **kwargs):
         self.chat_func = load_llm4chat(model_name_or_path, device, stream, **kwargs)
-
-    @property
-    def prompt_template(self):
-        # 重写 chat函数会更好 prompt += "[Round {}]\n问：{}\n答：{}\n".format(i, old_query, response)
-        # 根据角色配置模板
-        return """
-            {role}
-            基于以下已知信息，简洁和专业的来回答问题。
-            如果无法从中得到答案，请说 "根据已知信息无法回答该问题" 或 "没有提供足够的信息"，不允许在答案中添加编造成分，答案请使用中文。
-            已知信息: {context}
-            问题: {question}
-            """.strip()
 
     def run_serving(self, host='127.0.0.1', port=8000, path='/'):
         from flask import Flask, Response, jsonify, request

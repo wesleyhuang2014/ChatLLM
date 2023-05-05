@@ -17,8 +17,8 @@ from chatllm.applications import ChatBase
 
 class Crawler4QA(ChatBase):
 
-    def __init__(self, chat_func):
-        super().__init__(chat_func)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def qa(self, query,
            url="https://top.baidu.com/board?tab=realtime",
@@ -29,17 +29,11 @@ class Crawler4QA(ChatBase):
 
 
 if __name__ == '__main__':
-    from chatllm.utils import load_llm4chat
+    from chatllm.utils import MODEL_PATH
 
-    chat_func = load_llm4chat(
-        model_name_or_path="/Users/betterme/PycharmProjects/AI/CHAT_MODEL/chatglm",
-        device='mps',
-    )
 
-    qa = Crawler4QA(chat_func=chat_func)
+    qa = Crawler4QA()
+    qa.load_llm4chat(MODEL_PATH)
 
-    for i, _ in qa(query='提取人名'):
-        print(i, flush=True)
-        sys.stdout.flush()
+    list(qa(query='提取人名'))
 
-    pprint(qa.knowledge_base)

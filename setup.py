@@ -2,8 +2,11 @@
 
 """The setup script."""
 import time
+import pandas as pd
+from pathlib import Path
 from setuptools import setup, find_packages
 
+DIR = Path(__file__).resolve().parent
 version = time.strftime("%Y.%m.%d.%H.%M.%S", time.localtime())
 
 with open('README.md') as readme_file:
@@ -12,8 +15,9 @@ with open('README.md') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-with open('requirements.txt', encoding='utf-8') as f:
-    requirements = f.read().split('\n')
+get_requirements = lambda p='requirements.txt': pd.read_csv(p, comment='#', names=['name']).name.tolist()
+extras_require = {v.name.split('_')[1][:-4]: get_requirements(v) for v in DIR.glob('requirements_*')}
+extras_require['all'] = list(set(sum(extras_require.values(), [])))
 
 setup(
     author="yuanjie",
@@ -35,7 +39,9 @@ setup(
             'chatllm-run=chatllm.clis.cli:cli'
         ],
     },
-    install_requires=requirements,
+    setup_requires=["pandas"],
+    install_requires=get_requirements(),
+    extras_require=extras_require,  # pip install -U meutils\[all\]
     license="MIT license",
     long_description=readme + '\n\n' + history,
     long_description_content_type="text/markdown",
@@ -48,7 +54,6 @@ setup(
 
     test_suite='tests',
     url='https://github.com/yuanjie-ai/ChatLLM',
-    version=version, # '0.0.0',
+    version=version,  # '0.0.0',
     zip_safe=False,
 )
-
