@@ -33,8 +33,11 @@ _ = list(qa(query='周杰伦是谁', knowledge_base='周杰伦是傻子', role='
 <details markdown="1">
   <summary>Click to ChatPDF</summary>
 
-一键启动UI `chatllm-run webui --name chatpdf`
-
+- 一键启动UI
+```shell
+pip install "chatllm[pdf]" && chatllm-run webui --name chatpdf
+```
+- python交互
 ```python
 from chatllm.applications.chatpdf import ChatPDF
 
@@ -46,7 +49,7 @@ list(qa(query='东北证券主营业务'))
 # 根据已知信息，东北证券的主营业务为证券业务。公司作为证券公司，主要从事证券经纪、证券投资咨询、与证券交易、
 # 证券投资活动有关的财务顾问、证券承销与保荐、证券自营、融资融券、证券投资基金代销和代销金融产品待业务。
 ```
-- 支持查看召回结果
+- 支持召回结果查看
 ![向量召回结果](data/imgs/chatpdf.gif)
 
 </details>
