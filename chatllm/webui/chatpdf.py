@@ -10,7 +10,7 @@
 
 import streamlit as st
 from meutils.pipe import *
-from appzoo.streamlit_app.utils import display_pdf, reply4input
+from meutils.serving.st_utils import display_pdf, st_chat, set_config
 
 from chatllm.applications.chatpdf import ChatPDF
 
@@ -28,10 +28,13 @@ class Conf(BaseConfig):
 
 
 conf = Conf()
+conf = set_config(conf)
 
-for k, v in conf:  # 更新配置
-    v = type(v)(st.sidebar.text_input(label=k.upper(), value=v))
-    setattr(conf, k, v)
+
+# st.json(conf.dict())
+
+
+################################################################################################################
 
 
 @st.cache_resource()
@@ -80,7 +83,7 @@ with tabs[0]:
         if st.button("发送", key="predict"):
             with st.spinner("🤔 AI 正在思考，请稍等..."):
                 history = st.session_state.get('state')
-                st.session_state["state"] = reply4input(
+                st.session_state["state"] = st_chat(
                     text, history, container=container,
                     previous_messages=['请上传需要分析的PDF，我将为你解答'],
                     reply_func=reply_func,

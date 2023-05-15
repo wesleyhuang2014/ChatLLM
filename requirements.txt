@@ -1,6 +1,7 @@
 meutils
 docarray
 transformers
+tokenizers
 sentence_transformers
 
 
