@@ -41,7 +41,7 @@ class ChatBase(object):
         self.role = role or os.environ.get('LLM_ROLE', '')
         self.knowledge_base = str(knowledge_base).strip()
         if self.knowledge_base:
-            query = self.prompt_template.format(context=self.knowledge_base, question=query, role=self.role).strip()
+            query = self.prompt_template.format(context=self.knowledge_base, question=query, role=' ').strip()  # 无角色扮演
         else:
             query = """{role}\n{question}""".format(question=query, role=self.role).strip()  # 知识库为空则转通用回答
 
