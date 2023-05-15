@@ -43,7 +43,9 @@ class ChatBase(object):
         if self.knowledge_base:
             query = self.prompt_template.format(context=self.knowledge_base, question=query, role=self.role).strip()
         else:
-            query = """{role}\n{question}""".format(question=query, role=self.role).strip()  # 简化模版
+            query = """{role}\n{question}""".format(question=query, role=self.role).strip()  # 知识库为空则转通用回答
+
+        self.query = query
 
         _history = self.history[-(max_turns - 1):] if max_turns > 1 else []
         result = self.chat_func(query=query, history=_history)
