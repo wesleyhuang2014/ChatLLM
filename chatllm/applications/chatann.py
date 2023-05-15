@@ -32,7 +32,6 @@ class ChatANN(ChatBase):
         """
         super().__init__(**kwargs)
         self.backend = backend
-
         self.encode = SentenceTransformer(encode_model).encode  # 加缓存，可重新set
 
         # create index
@@ -50,10 +49,11 @@ class ChatANN(ChatBase):
         return self._qa(query, knowledge_base, **kwargs)
 
     def find(self, query, topk=5, threshold=0.66):  # 返回df
-        v = self.encode(query)  # np
+        v = self.encode(query, convert_to_numpy=False)
 
         if self.backend == 'in_memory':
-            r = self.index.find(TorchTensor(v), topk)
+            # r = self.index.find(TorchTensor(v), topk)
+            r = self.index.find(v, topk)
             self.recall = (
                 # r.documents.to_dataframe() # bug
                 pd.DataFrame(json.loads(r.documents.to_json()))
