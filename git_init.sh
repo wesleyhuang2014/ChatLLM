@@ -10,5 +10,5 @@ git commit -m "[fix] Can't pickle local"
 #git branch -M master
 
 git pull
-git push -u origin master
+git push -u origin master -f
 # git remote remove origin
