@@ -40,11 +40,12 @@ def qa4pdf(encode_model, model_name_or_path):
     return qa
 
 
+# if is_ok:
 ################################################################################################################
 
 tabs = st.tabs(['ChatPDF', 'PDF文件预览'])
 
-file = st.sidebar.file_uploader("上传PDF", type=['pdf'])
+file = st.file_uploader("上传PDF", type=['pdf'])
 bytes_array = ''
 if file:
     bytes_array = file.read()
