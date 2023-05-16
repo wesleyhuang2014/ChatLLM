@@ -44,8 +44,6 @@ def qa4pdf(encode_model, model_name_or_path, cachedir):
     return qa
 
 
-
-
 def reply_func(query):
     for response, _ in qa(query=query, topk=conf.topk, threshold=conf.threshold):
         yield response
@@ -84,7 +82,9 @@ if st.session_state.get('init'):
                     )
 
             with st.expander('点击可查看被召回的知识'):
-                st.dataframe(qa.recall)
+                st.dataframe(qa.recall.drop('embedding', 1, errors='ignore'))
+                # st.dataframe(qa.recall)
+
 
     with tabs[1]:
         if bytes_array:

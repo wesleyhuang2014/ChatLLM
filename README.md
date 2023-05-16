@@ -137,10 +137,11 @@ list(qa(query='东北证券主营业务'))
 </details>
 
 ## 交流群
-
 <div align=center>
-<img src="data/imgs/wechat.png"/>
+<img src="data/imgs/群.png" alt="群" width="250" height="400">
 </div>
+
+> 若二维码失效加微信拉群 313303303
 
 
 

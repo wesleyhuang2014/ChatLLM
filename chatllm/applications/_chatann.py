@@ -7,14 +7,14 @@
 # @WeChat       : meutils
 # @Software     : PyCharm
 # @Description  :
-import dataclasses
-
-import pandas as pd
 
 from meutils.pipe import *
-from meutils.np_utils import cosine_topk
 from chatllm.applications import ChatBase
 
+from docarray import DocList, BaseDoc
+from docarray.typing import TorchTensor
+from docarray.utils.find import find
+from docarray.utils.filter import filter_docs
 from sentence_transformers import SentenceTransformer
 
 
@@ -32,7 +32,7 @@ class ChatANN(ChatBase):
         """
         super().__init__(**kwargs)
         self.backend = backend
-        self.encode = SentenceTransformer(encode_model).encode  # 加缓存，可重新set
+        self.encode = SentenceTransformer(encode_model, device='cpu').encode  # 加缓存，可重新set
 
         # create index
         self.index = None
@@ -49,23 +49,31 @@ class ChatANN(ChatBase):
         return self._qa(query, knowledge_base, **kwargs)
 
     def find(self, query, topk=5, threshold=0.66):  # 返回df
-        v = self.encode([query])  # ndim=2
+        v = self.encode(query, convert_to_numpy=False)
 
         if self.backend == 'in_memory':
-            idxs, scores = cosine_topk(v, np.array(self.index.embedding.tolist()), topk)
-
+            # r = self.index.find(TorchTensor(v), topk)
+            r = self.index.find(v, topk)
             self.recall = (
-                self.index.iloc[idxs, :]
-                .assign(score=scores)
+                # r.documents.to_dataframe() # bug
+                # pd.DataFrame(json.loads(r.documents.to_json()))
+                r.documents.to_dataframe()
+                .assign(score=r.scores)
                 .query(f'score > {threshold}')
             )
 
         return self.recall
 
     def create_index(self, texts):
-        embeddings = self.encode(texts, show_progress_bar=True)
-        if self.backend == 'in_memory':
-            self.index = pd.DataFrame({'text': texts, 'embedding': embeddings.tolist()})
+        tensors = self.encode(texts, show_progress_bar=True, convert_to_numpy=False)
+
+        class Document(BaseDoc):
+            text: str
+            embedding: TorchTensor
+
+        self.index = DocList[Document]()
+        self.index.extend([Document(text=text, embedding=tensor) for text, tensor in zip(texts, tensors)])
+        self.index.find = lambda query, topk=3: find(self.index, query, limit=topk, search_field='embedding')
 
         return self.index
 
